@@ -6,71 +6,89 @@
 <title>🐾 班级宠物乐园</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Segoe UI','Comic Sans MS', system-ui; background: linear-gradient(180deg, #FFF8F0 0%, #FFE4E1 100%); min-height:100vh; }
+body { font-family: 'Segoe UI','Comic Sans MS', system-ui; background: linear-gradient(180deg, #f0f8e8 0%, #e8f4e0 100%); min-height:100vh; }
 
-.header { background: linear-gradient(135deg, #FFB6C1, #FF69B4); color:#fff; padding:15px; text-align:center; 
-  font-size:1.4rem; font-weight:bold; position:sticky; top:0; z-index:100; box-shadow:0 4px 12px rgba(255,105,180,0.3); }
+.header { background: linear-gradient(135deg, #ff9a56, #ff6b6b); color:#fff; padding:15px; text-align:center; 
+  font-size:1.4rem; font-weight:bold; position:sticky; top:0; z-index:100; letter-spacing:2px; }
 
-.toolbar { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:10px; background:#fff; 
-  position:sticky; top:52px; z-index:99; border-bottom:2px solid #f0e0e0; }
-.btn { padding:8px 16px; border-radius:20px; border:none; font-size:0.9rem; cursor:pointer; font-weight:bold; transition:0.2s; }
-.btn:active { transform:scale(0.95); }
-.btn-zoo { background:#7bc67e; color:#fff; }
-.btn-shop { background:#FFD700; color:#333; }
-.btn-add { background:#FFB6C1; color:#fff; }
+.toolbar { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:12px; background:#fff; 
+  position:sticky; top:52px; z-index:99; border-bottom:3px solid #ffe0d0; }
+.btn { padding:10px 18px; border-radius:25px; border:none; font-size:0.95rem; cursor:pointer; font-weight:bold; transition:0.2s; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.btn:active { transform:scale(0.94); }
+.btn-zoo { background:#6bc77b; color:#fff; }
+.btn-shop { background:#ffb347; color:#fff; }
+.btn-add { background:#ff7b7b; color:#fff; }
 
-.student-list { padding:12px; max-width:800px; margin:0 auto; }
-.student-card { background:#fff; border-radius:20px; padding:12px; margin-bottom:12px; 
-  box-shadow:0 4px 12px rgba(0,0,0,0.06); transition:0.3s; }
-.student-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.1); }
-.student-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
-.student-name { font-size:1.1rem; font-weight:bold; color:#e75480; }
-.student-points { background:#FFD700; color:#fff; padding:3px 14px; border-radius:15px; font-size:0.85rem; font-weight:bold; }
+.student-list { padding:15px; max-width:900px; margin:0 auto; }
+.student-card { background:#fff; border-radius:20px; padding:14px; margin-bottom:14px; 
+  box-shadow:0 6px 18px rgba(0,0,0,0.06); transition:0.3s; border:2px solid #f5e6d3; }
+.student-card:hover { border-color:#ffb347; transform:translateY(-2px); }
+.student-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.student-name { font-size:1.2rem; font-weight:bold; color:#d4532a; }
+.student-points { background:#ffb347; color:#fff; padding:4px 14px; border-radius:18px; font-size:0.85rem; font-weight:bold; }
 
-.pet-row { display:flex; gap:10px; overflow-x:auto; padding:6px 0; }
-.pet-mini { min-width:80px; text-align:center; padding:6px; border-radius:12px; background:#fffaf5; cursor:pointer; transition:0.2s; }
-.pet-mini:hover { background:#ffe4ec; }
-.pet-emoji { font-size:2.5rem; display:block; }
-.pet-emoji.walk { animation: walkAnim 0.5s ease-in-out infinite; }
-.pet-emoji.happy { animation: happyAnim 0.4s ease-in-out infinite; }
-.pet-emoji.sleep { animation: sleepAnim 2s ease-in-out infinite; }
-.pet-emoji.eat { animation: eatAnim 0.6s ease-in-out infinite; }
-.pet-emoji.sad { filter:grayscale(0.5); opacity:0.7; }
-.pet-species { font-size:0.75rem; color:#666; }
-.pet-level { font-size:0.7rem; background:#eee; border-radius:8px; padding:1px 6px; display:inline-block; }
+.pet-row { display:flex; gap:12px; overflow-x:auto; padding:8px 4px; }
+.pet-mini { min-width:100px; text-align:center; padding:8px; border-radius:16px; background:#fffaf3; cursor:pointer; transition:0.2s; position:relative; }
+.pet-mini:hover { background:#fff0e0; transform:translateY(-4px); box-shadow:0 6px 16px rgba(0,0,0,0.1); }
+.pet-mini.selected { border:3px solid #ffb347; background:#fff8e0; }
 
-.action-btns { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
-.btn-sm { padding:4px 10px; border-radius:12px; border:none; font-size:0.75rem; cursor:pointer; font-weight:bold; }
-.btn-plus { background:#98FB98; color:#333; }
-.btn-minus { background:#FFB6C1; color:#333; }
+/* CSS绘制的宠物全身像 */
+.pet-body { width:60px; height:60px; margin:0 auto; position:relative; transition:0.3s; }
+.pet-body.walk { animation: bodyWalk 0.6s ease-in-out infinite; }
+.pet-body.happy { animation: bodyHappy 0.5s ease-in-out infinite; }
+.pet-body.sleep { animation: bodySleep 2s ease-in-out infinite; }
+.pet-body.eat { animation: bodyEat 0.7s ease-in-out infinite; }
+.pet-body.sad { animation: bodySad 1.5s ease-in-out infinite; filter:grayscale(0.4); }
 
-@keyframes walkAnim { 0%,100%{transform:translateX(0);} 50%{transform:translateX(6px);} }
-@keyframes happyAnim { 0%,100%{transform:scale(1) rotate(0);} 25%{transform:scale(1.2) rotate(-6deg);} 75%{transform:scale(1.2) rotate(6deg);} }
-@keyframes sleepAnim { 0%,100%{transform:scale(1);} 50%{transform:scale(0.92);} }
-@keyframes eatAnim { 0%,100%{transform:scale(1);} 50%{transform:scale(0.9) translateY(2px);} }
+@keyframes bodyWalk { 0%,100%{transform:translateY(0) rotate(0);} 30%{transform:translateY(-8px) rotate(-3deg);} 60%{transform:translateY(0) rotate(3deg);} }
+@keyframes bodyHappy { 0%,100%{transform:scale(1) translateY(0);} 30%{transform:scale(1.2) translateY(-12px);} 60%{transform:scale(0.9) translateY(0);} }
+@keyframes bodySleep { 0%,100%{transform:scale(1) translateY(0); opacity:1;} 50%{transform:scale(0.9) translateY(4px); opacity:0.8;} }
+@keyframes bodyEat { 0%,100%{transform:scale(1) translateY(0);} 25%{transform:scale(0.85) translateY(3px);} 75%{transform:scale(1.05) translateY(-3px);} }
+@keyframes bodySad { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
-.popup-bg { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:199; }
+.pet-species { font-size:0.8rem; color:#888; margin-top:4px; }
+.pet-level { font-size:0.7rem; background:#ffe0c0; color:#d4532a; border-radius:10px; padding:2px 8px; display:inline-block; margin-top:2px; }
+.pet-delete { position:absolute; top:-4px; right:-4px; width:20px; height:20px; background:#ff4444; color:#fff; border-radius:50%; font-size:12px; line-height:20px; cursor:pointer; display:none; }
+.pet-mini:hover .pet-delete { display:block; }
+
+.action-btns { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+.btn-sm { padding:5px 12px; border-radius:14px; border:none; font-size:0.8rem; cursor:pointer; font-weight:bold; transition:0.15s; }
+.btn-sm:active { transform:scale(0.93); }
+.btn-plus { background:#b8e6b8; color:#2d5a2d; }
+.btn-minus { background:#ffcccc; color:#8b2020; }
+
+/* 宠物选择面板 */
+.pet-select-panel { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:300; display:flex; align-items:center; justify-content:center; }
+.pet-select-card { background:#fff; border-radius:24px; padding:20px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; }
+.pet-select-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin:15px 0; }
+.pet-option { text-align:center; padding:12px; border-radius:16px; cursor:pointer; transition:0.2s; border:2px solid #eee; }
+.pet-option:hover { border-color:#ffb347; background:#fff8f0; transform:translateY(-3px); }
+
+/* 动物园场景 */
+.zoo-container { position:relative; width:100%; height:65vh; border-radius:24px; overflow:hidden; margin:10px 0; }
+.zoo-bg { width:100%; height:100%; position:relative; 
+  background: linear-gradient(180deg, #87CEEB 0%, #b8e6b8 40%, #7bc67e 60%, #5a8a3c 100%); }
+.zoo-ground { position:absolute; bottom:0; width:100%; height:30%; 
+  background: linear-gradient(180deg, #8BC34A 0%, #689F38 100%); border-radius:50% 50% 0 0 / 20px 20px 0 0; }
+.zoo-pet { position:absolute; cursor:pointer; transition:left 3s linear, top 0.5s ease; z-index:10; }
+.zoo-pet-inner { text-align:center; }
+
+/* 详情弹窗 */
+.popup-bg { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:199; }
 .pet-detail-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; 
-  border-radius:20px; padding:20px; z-index:200; box-shadow:0 10px 40px rgba(0,0,0,0.2); max-width:320px; width:90%; text-align:center; }
-.popup-emoji { font-size:5rem; display:block; margin:10px 0; }
-.popup-emoji.walk { animation: walkAnim 0.5s ease-in-out infinite; }
-.popup-emoji.happy { animation: happyAnim 0.4s ease-in-out infinite; }
-.popup-emoji.sleep { animation: sleepAnim 2s ease-in-out infinite; }
-.popup-emoji.eat { animation: eatAnim 0.6s ease-in-out infinite; }
-.popup-emoji.sad { filter:grayscale(0.5); opacity:0.7; }
+  border-radius:22px; padding:22px; z-index:200; box-shadow:0 14px 40px rgba(0,0,0,0.25); max-width:350px; width:92%; text-align:center; }
+.popup-pet-body { margin:15px auto; }
 
-.zoo-scene { width:100%; height:60vh; background:#7bc67e; border-radius:20px; position:relative; overflow:hidden; margin:10px 0; }
-.zoo-pet { position:absolute; font-size:2.2rem; transition:all 2s linear; cursor:pointer; }
+.select-btn { margin-top:10px; background:#ff9a56; color:#fff; padding:8px 16px; border-radius:16px; border:none; cursor:pointer; font-weight:bold; }
 
-.shop-item { display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee; }
-select { padding:8px; border-radius:10px; width:100%; margin-bottom:10px; border:2px solid #ddd; }
-input { padding:6px; border-radius:8px; border:1px solid #ddd; }
+/* 花朵、星星装饰 */
+.zoo-flower { position:absolute; font-size:1.2rem; animation: sway 2s ease-in-out infinite; }
+@keyframes sway { 0%,100%{transform:rotate(0);} 50%{transform:rotate(8deg);} }
 
 @media (max-width:500px) {
-  .student-card { padding:10px; }
-  .pet-mini { min-width:65px; }
-  .pet-emoji { font-size:2rem; }
-  .zoo-scene { height:40vh; }
+  .pet-mini { min-width:75px; }
+  .pet-body { width:45px; height:45px; }
+  .zoo-container { height:45vh; }
 }
 </style>
 </head>
@@ -84,8 +102,9 @@ input { padding:6px; border-radius:8px; border:1px solid #ddd; }
     <button class="btn btn-add" @click="addStudent">➕ 添加学生</button>
   </div>
 
+  <!-- 主界面 -->
   <div class="student-list" v-if="currentView==='main'">
-    <div v-for="(student, si) in students" :key="student.id" class="student-card">
+    <div v-for="student in students" :key="student.id" class="student-card">
       <div class="student-header">
         <span class="student-name">{{ student.avatar }} {{ student.name }}</span>
         <span class="student-points">⭐ {{ student.points }}分 | 🏷️ {{ Math.floor(student.points/20) }}贴纸</span>
@@ -93,12 +112,13 @@ input { padding:6px; border-radius:8px; border:1px solid #ddd; }
 
       <div class="pet-row">
         <div v-for="(pet, pi) in student.pets" :key="pi" class="pet-mini" @click="openPetDetail(student, pet)">
-          <span class="pet-emoji" :class="pet.currentAction">{{ petEmojis[pet.species] || '🐾' }}</span>
+          <div class="pet-delete" @click.stop="deletePet(student, pi)">✕</div>
+          <div class="pet-body" :class="pet.currentAction" v-html="getPetSVG(pet.species, pet.currentAction)"></div>
           <div class="pet-species">{{ pet.species }}</div>
           <span class="pet-level">Lv{{ pet.level }}</span>
         </div>
-        <div class="pet-mini" style="display:flex;align-items:center;justify-content:center;border:2px dashed #ddd;" @click="adoptPet(student)">
-          <span style="font-size:2rem;">➕</span>
+        <div class="pet-mini" style="display:flex;align-items:center;justify-content:center;border:2px dashed #ffb347;" @click="openPetSelect(student)">
+          <span style="font-size:2rem;color:#ffb347;">➕</span>
         </div>
       </div>
 
@@ -112,45 +132,67 @@ input { padding:6px; border-radius:8px; border:1px solid #ddd; }
     </div>
   </div>
 
-  <div v-if="currentView==='zoo'">
-    <button class="btn" style="background:#ddd;margin:10px;" @click="currentView='main'">⬅ 返回主页</button>
-    <div class="zoo-scene" id="zooCanvas"></div>
+  <!-- 宠物选择面板 -->
+  <div class="pet-select-panel" v-if="selectingStudent">
+    <div class="pet-select-card">
+      <h3>🐾 选择一只宠物给 {{ selectingStudent.name }}</h3>
+      <div class="pet-select-grid">
+        <div v-for="(pet, key) in petShop" :key="key" class="pet-option" @click="selectPet(key)">
+          <div v-html="pet.svg" style="width:70px;height:70px;margin:0 auto;"></div>
+          <div style="font-weight:bold;color:#d4532a;margin-top:6px;">{{ key }}</div>
+          <div style="font-size:0.75rem;color:#888;">{{ pet.desc }}</div>
+        </div>
+      </div>
+      <button class="btn" style="background:#ddd;width:100%;" @click="selectingStudent=null;">取消</button>
+    </div>
   </div>
 
-  <div v-if="currentView==='shop'" style="max-width:600px;margin:10px auto;background:#fff;border-radius:20px;padding:15px;">
-    <button class="btn" style="background:#ddd;margin-bottom:10px;" @click="currentView='main'">⬅ 返回主页</button>
+  <!-- 动物园 -->
+  <div v-if="currentView==='zoo'">
+    <button class="btn" style="background:#fff;margin:10px;color:#333;" @click="currentView='main'">⬅ 返回主页</button>
+    <div class="zoo-container" id="zooCanvas">
+      <div class="zoo-bg" id="zooBg">
+        <div class="zoo-ground"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 兑换商城 -->
+  <div v-if="currentView==='shop'" style="max-width:600px;margin:10px auto;background:#fff;border-radius:22px;padding:18px;">
+    <button class="btn" style="background:#ddd;margin-bottom:12px;" @click="currentView='main'">⬅ 返回主页</button>
     <h3>🎁 兑换商城</h3>
-    <p style="color:#666;margin:8px 0;">选择学生：</p>
-    <select v-model="selectedStudentId">
+    <p style="color:#666;margin:8px 0;">选择学生：<b>{{ selectedStudentName }}</b> (贴纸余额: {{ selectedStudentStickers }})</p>
+    <select v-model="selectedStudentId" style="padding:10px;border-radius:12px;width:100%;margin-bottom:12px;border:2px solid #ddd;font-size:1rem;">
       <option v-for="s in students" :value="s.id">{{ s.name }} ({{ Math.floor(s.points/20) }}贴纸)</option>
     </select>
-    <div v-for="item in shopItems" :key="item.id" class="shop-item">
-      <span>{{ item.icon }} {{ item.name }} <b>({{ item.cost }}贴纸)</b></span>
-      <button class="btn-sm btn-plus" @click="exchangeItem(item)">兑换</button>
+    <div v-for="item in shopItems" :key="item.id" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #f0e0d0;">
+      <span>{{ item.icon }} <b>{{ item.name }}</b> ({{ item.cost }}贴纸)</span>
+      <button class="btn-sm" style="background:#ffb347;color:#fff;" @click="exchangeItem(item)" :disabled="selectedStudentStickers < item.cost">兑换</button>
     </div>
-    <div style="margin-top:15px;padding:10px;background:#fffaf0;border-radius:10px;">
+    <div style="margin-top:15px;padding:12px;background:#fff8f0;border-radius:14px;">
       <h4>➕ 添加商品</h4>
-      <input v-model="newItemName" placeholder="商品名" style="width:120px;">
-      <input v-model="newItemCost" type="number" placeholder="贴纸" style="width:70px;margin-left:5px;">
-      <button class="btn-sm btn-plus" @click="addShopItem">添加</button>
+      <input v-model="newItemName" placeholder="商品名" style="width:120px;padding:8px;border-radius:10px;border:1px solid #ddd;">
+      <input v-model="newItemCost" type="number" placeholder="贴纸" style="width:70px;padding:8px;border-radius:10px;border:1px solid #ddd;margin-left:6px;">
+      <button class="btn-sm" style="background:#b8e6b8;color:#2d5a2d;margin-left:6px;" @click="addShopItem">添加</button>
     </div>
   </div>
 
+  <!-- 宠物详情弹窗 -->
   <div v-if="detailPet">
     <div class="popup-bg" @click="detailPet=null"></div>
     <div class="pet-detail-popup">
-      <span class="popup-emoji" :class="detailPet.pet.currentAction">{{ petEmojis[detailPet.pet.species] || '🐾' }}</span>
+      <div class="popup-pet-body" :class="detailPet.pet.currentAction" v-html="getPetSVG(detailPet.pet.species, detailPet.pet.currentAction, 100)"></div>
       <h3>{{ detailPet.pet.species }} Lv.{{ detailPet.pet.level }}</h3>
-      <p>😊心情 <progress :value="detailPet.pet.mood" max="100" style="width:100%;"></progress> {{ detailPet.pet.mood }}</p>
-      <p>⚡活力 <progress :value="detailPet.pet.energy" max="100" style="width:100%;"></progress> {{ detailPet.pet.energy }}</p>
-      <p>🍞饱食 <progress :value="detailPet.pet.hunger" max="100" style="width:100%;"></progress> {{ detailPet.pet.hunger }}</p>
-      <p>🧹整洁 <progress :value="detailPet.pet.cleanliness" max="100" style="width:100%;"></progress> {{ detailPet.pet.cleanliness }}</p>
-      <div style="margin-top:10px;">
-        <button class="btn-sm btn-plus" @click="feedPet()">🍎喂食</button>
-        <button class="btn-sm btn-plus" @click="playPet()">🎾玩耍</button>
-        <button class="btn-sm btn-plus" @click="restPet()">😴休息</button>
+      <p>😊心情 <progress :value="detailPet.pet.mood" max="100" style="width:100%;accent-color:#ff9a56;"></progress> {{ detailPet.pet.mood }}</p>
+      <p>⚡活力 <progress :value="detailPet.pet.energy" max="100" style="width:100%;accent-color:#ffb347;"></progress> {{ detailPet.pet.energy }}</p>
+      <p>🍞饱食 <progress :value="detailPet.pet.hunger" max="100" style="width:100%;accent-color:#6bc77b;"></progress> {{ detailPet.pet.hunger }}</p>
+      <p>🧹整洁 <progress :value="detailPet.pet.cleanliness" max="100" style="width:100%;accent-color:#87CEEB;"></progress> {{ detailPet.pet.cleanliness }}</p>
+      <div style="margin:12px 0;">
+        <button class="btn-sm" style="background:#ff9a56;color:#fff;" @click="feedPet()">🍎喂食</button>
+        <button class="btn-sm" style="background:#ffb347;color:#fff;margin-left:4px;" @click="playPet()">🎾玩耍</button>
+        <button class="btn-sm" style="background:#6bc77b;color:#fff;margin-left:4px;" @click="restPet()">😴休息</button>
       </div>
-      <button class="btn" style="background:#ddd;margin-top:10px;" @click="detailPet=null">关闭</button>
+      <button class="btn" style="background:#ddd;width:100%;margin-top:6px;" @click="detailPet=null">关闭</button>
     </div>
   </div>
 </div>
@@ -158,22 +200,55 @@ input { padding:6px; border-radius:8px; border:1px solid #ddd; }
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script>
 const { createApp } = Vue;
+
+// SVG宠物模板库（生动的矢量动物）
+const petSVGTemplates = {
+  '小柴犬': {
+    svg: '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="55" rx="28" ry="26" fill="#F4A460"/><circle cx="50" cy="30" r="22" fill="#F4A460"/><ellipse cx="50" cy="28" rx="14" ry="12" fill="#FFF8DC"/><circle cx="42" cy="26" r="4" fill="#333"/><circle cx="58" cy="26" r="4" fill="#333"/><ellipse cx="50" cy="34" rx="5" ry="4" fill="#333"/><polygon points="36,18 30,8 42,16" fill="#F4A460"/><polygon points="64,18 70,8 58,16" fill="#F4A460"/><ellipse cx="50" cy="78" rx="8" ry="5" fill="#FAEBD7"/><path d="M30,60 Q20,70 28,68" stroke="#F4A460" stroke-width="5" fill="none"/><path d="M70,60 Q80,70 72,68" stroke="#F4A460" stroke-width="5" fill="none"/></svg>',
+    desc: '活泼忠诚的小狗'
+  },
+  '小熊猫': {
+    svg: '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="55" rx="30" ry="28" fill="#E8E8E8"/><ellipse cx="50" cy="52" rx="18" ry="16" fill="#fff"/><circle cx="50" cy="32" r="20" fill="#fff"/><circle cx="42" cy="28" r="6" fill="#333"/><circle cx="58" cy="28" r="6" fill="#333"/><circle cx="42" cy="30" r="2" fill="#fff"/><circle cx="58" cy="30" r="2" fill="#fff"/><ellipse cx="50" cy="38" rx="5" ry="4" fill="#333"/><circle cx="36" cy="24" r="7" fill="#333"/><circle cx="64" cy="24" r="7" fill="#333"/><ellipse cx="50" cy="80" rx="10" ry="6" fill="#F5F5F5"/></svg>',
+    desc: '憨厚可爱的小熊猫'
+  },
+  '小白兔': {
+    svg: '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="58" rx="24" ry="26" fill="#FFF"/><circle cx="50" cy="32" r="18" fill="#FFF"/><ellipse cx="50" cy="28" rx="10" ry="8" fill="#FFE4E1"/><circle cx="43" cy="28" r="4" fill="#E8A0A0"/><circle cx="57" cy="28" r="4" fill="#E8A0A0"/><circle cx="43" cy="29" r="1.5" fill="#fff"/><circle cx="57" cy="29" r="1.5" fill="#fff"/><ellipse cx="50" cy="35" rx="4" ry="3" fill="#E8A0A0"/><ellipse cx="26" cy="14" rx="5" ry="18" fill="#FFF" transform="rotate(-15,26,14)"/><ellipse cx="74" cy="14" rx="5" ry="18" fill="#FFF" transform="rotate(15,74,14)"/><circle cx="50" cy="84" rx="10" ry="6" fill="#FFF"/></svg>',
+    desc: '雪白软萌的小兔'
+  },
+  '小企鹅': {
+    svg: '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="55" rx="26" ry="32" fill="#2C3E50"/><ellipse cx="50" cy="50" rx="18" ry="22" fill="#FFF"/><circle cx="50" cy="30" r="18" fill="#2C3E50"/><circle cx="43" cy="28" r="4" fill="#fff"/><circle cx="57" cy="28" r="4" fill="#fff"/><circle cx="43" cy="29" r="2" fill="#2C3E50"/><circle cx="57" cy="29" r="2" fill="#2C3E50"/><polygon points="44,36 50,42 56,36" fill="#F39C12"/><ellipse cx="35" cy="65" rx="8" ry="18" fill="#2C3E50" transform="rotate(-20,35,65)"/><ellipse cx="65" cy="65" rx="8" ry="18" fill="#2C3E50" transform="rotate(20,65,65)"/><ellipse cx="38" cy="80" rx="7" ry="3" fill="#F39C12"/><ellipse cx="62" cy="80" rx="7" ry="3" fill="#F39C12"/></svg>',
+    desc: '摇摇摆摆的小企鹅'
+  },
+  '小猫咪': {
+    svg: '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="56" rx="26" ry="24" fill="#FFB366"/><circle cx="50" cy="30" r="20" fill="#FFB366"/><circle cx="42" cy="24" r="6" fill="#4A6741"/><circle cx="58" cy="24" r="6" fill="#4A6741"/><ellipse cx="42" cy="26" rx="2" ry="4" fill="#222"/><ellipse cx="58" cy="26" rx="2" ry="4" fill="#222"/><ellipse cx="50" cy="36" rx="5" ry="4" fill="#E8917E"/><polygon points="34,14 28,4 42,12" fill="#FFB366"/><polygon points="66,14 72,4 58,12" fill="#FFB366"/><path d="M28,60 Q18,72 24,78" stroke="#FFB366" stroke-width="6" fill="none"/><circle cx="30" cy="80" r="6" fill="#FFB366"/><path d="M72,60 Q82,72 76,78" stroke="#FFB366" stroke-width="6" fill="none"/><circle cx="70" cy="80" r="6" fill="#FFB366"/></svg>',
+    desc: '机灵可爱的小猫'
+  },
+  '小仓鼠': {
+    svg: '<svg viewBox="0 0 100 100"><circle cx="50" cy="55" r="28" fill="#D2A679"/><circle cx="50" cy="45" r="20" fill="#E8C99B"/><circle cx="42" cy="40" r="5" fill="#333"/><circle cx="58" cy="40" r="5" fill="#333"/><circle cx="42" cy="41" r="1.5" fill="#fff"/><circle cx="58" cy="41" r="1.5" fill="#fff"/><ellipse cx="50" cy="48" rx="5" ry="4" fill="#E8A0A0"/><circle cx="38" cy="32" r="8" fill="#D2A679"/><circle cx="62" cy="32" r="8" fill="#D2A679"/><circle cx="38" cy="33" r="5" fill="#E8C99B"/><circle cx="62" cy="33" r="5" fill="#E8C99B"/></svg>',
+    desc: '圆滚滚的小仓鼠'
+  },
+  '小恐龙': {
+    svg: '<svg viewBox="0 0 100 100"><ellipse cx="48" cy="56" rx="26" ry="24" fill="#6DBF6D"/><circle cx="48" cy="32" r="18" fill="#6DBF6D"/><circle cx="40" cy="28" r="5" fill="#fff"/><circle cx="54" cy="28" r="5" fill="#fff"/><circle cx="40" cy="29" r="2.5" fill="#333"/><circle cx="54" cy="29" r="2.5" fill="#333"/><ellipse cx="47" cy="37" rx="5" ry="3" fill="#4A8F4A"/><polygon points="24,18 28,34 20,28" fill="#6DBF6D"/><polygon points="20,22 18,36 14,28" fill="#5BA55B"/><path d="M74,45 Q70,55 76,65 Q80,55 78,45" fill="#6DBF6D"/><ellipse cx="48" cy="78" rx="10" ry="5" fill="#A8E6A8"/></svg>',
+    desc: '可爱的小恐龙'
+  }
+};
+
 const app = createApp({
   data() {
-    const saved = JSON.parse(localStorage.getItem('classroom_pet_data') || '{}');
+    const saved = JSON.parse(localStorage.getItem('classroom_pet_data_v2') || '{}');
     return {
       currentView: 'main',
       students: saved.students || [
         { id:'s1', name:'小明', avatar:'👦', points:45, pets:[
-          { species:'小萌狗', level:2, exp:150, mood:80, energy:70, hunger:60, cleanliness:90, currentAction:'walk' },
-          { species:'冰霜兔', level:1, exp:60, mood:75, energy:85, hunger:50, cleanliness:80, currentAction:'eat' }
+          { species:'小柴犬', level:2, exp:150, mood:80, energy:70, hunger:60, cleanliness:90, currentAction:'walk' },
+          { species:'小白兔', level:1, exp:60, mood:75, energy:85, hunger:50, cleanliness:80, currentAction:'eat' }
         ]},
         { id:'s2', name:'小红', avatar:'👧', points:30, pets:[
-          { species:'火焰龙', level:1, exp:40, mood:60, energy:90, hunger:70, cleanliness:75, currentAction:'happy' }
+          { species:'小猫咪', level:1, exp:40, mood:60, energy:90, hunger:70, cleanliness:75, currentAction:'happy' }
         ]},
         { id:'s3', name:'小华', avatar:'👦', points:60, pets:[
-          { species:'云朵猫', level:3, exp:250, mood:90, energy:60, hunger:80, cleanliness:85, currentAction:'sleep' },
-          { species:'星星熊', level:1, exp:20, mood:50, energy:40, hunger:30, cleanliness:60, currentAction:'sad' }
+          { species:'小熊猫', level:3, exp:250, mood:90, energy:60, hunger:80, cleanliness:85, currentAction:'sleep' },
+          { species:'小企鹅', level:1, exp:20, mood:50, energy:40, hunger:30, cleanliness:60, currentAction:'sad' }
         ]}
       ],
       shopItems: saved.shopItems || [
@@ -181,44 +256,65 @@ const app = createApp({
         { id:2, icon:'📝', name:'免作业券', cost:5 },
         { id:3, icon:'🎤', name:'选歌权', cost:3 }
       ],
-      petEmojis: {
-        '小萌狗':'🐶','冰霜兔':'🐰','火焰龙':'🐲','云朵猫':'😺','星星熊':'🧸',
-        '小企鹅':'🐧','小海豚':'🐬','小狐狸':'🦊','小熊猫':'🐼','小恐龙':'🦕'
-      },
-      allSpecies: ['小萌狗','冰霜兔','火焰龙','云朵猫','星星熊','小企鹅','小海豚','小狐狸','小熊猫','小恐龙'],
+      petShop: petSVGTemplates,
       detailPet: null,
-      selectedStudentId: null,
+      selectingStudent: null,
+      selectedStudentId: saved.selectedStudentId || null,
       newItemName: '', newItemCost: 5,
       studentCounter: (saved.students?.length || 3) + 1
     }
   },
+  computed: {
+    selectedStudentName() {
+      const s = this.students.find(s => s.id === this.selectedStudentId);
+      return s ? s.name : '未选择';
+    },
+    selectedStudentStickers() {
+      const s = this.students.find(s => s.id === this.selectedStudentId);
+      return s ? Math.floor(s.points / 20) : 0;
+    }
+  },
   watch: {
     students: { deep:true, handler:'saveAll' },
-    shopItems: { deep:true, handler:'saveAll' }
+    shopItems: { deep:true, handler:'saveAll' },
+    selectedStudentId(val) { this.saveAll(); }
   },
   methods: {
     saveAll() {
-      localStorage.setItem('classroom_pet_data', JSON.stringify({
+      localStorage.setItem('classroom_pet_data_v2', JSON.stringify({
         students: this.students,
-        shopItems: this.shopItems
+        shopItems: this.shopItems,
+        selectedStudentId: this.selectedStudentId
       }));
+    },
+    getPetSVG(species, action, size) {
+      const template = this.petShop[species];
+      return template ? template.svg : this.petShop['小柴犬'].svg;
     },
     addStudent() {
       const name = prompt('请输入学生姓名：');
       if (!name) return;
-      const id = 's' + (this.studentCounter++);
-      const avatars = ['👦','👧','🧒','👦','👧'];
       this.students.push({
-        id, name, avatar: avatars[Math.floor(Math.random()*avatars.length)], points:0, pets:[]
+        id: 's' + (this.studentCounter++),
+        name, avatar: '🧒', points:0, pets:[]
       });
     },
-    adoptPet(student) {
-      const species = this.allSpecies[Math.floor(Math.random()*this.allSpecies.length)];
+    openPetSelect(student) {
+      this.selectingStudent = student;
+    },
+    selectPet(species) {
+      if (!this.selectingStudent) return;
       const actions = ['walk','happy','sleep','eat'];
-      student.pets.push({
+      this.selectingStudent.pets.push({
         species, level:1, exp:0, mood:80, energy:80, hunger:80, cleanliness:80,
         currentAction: actions[Math.floor(Math.random()*actions.length)]
       });
+      this.selectingStudent = null;
+    },
+    deletePet(student, index) {
+      if (confirm('确定要放生 ' + student.pets[index].species + ' 吗？')) {
+        student.pets.splice(index, 1);
+      }
     },
     addPoints(student, type, amount) {
       student.points += amount;
@@ -231,7 +327,7 @@ const app = createApp({
         pet.mood = Math.min(100, pet.mood+5);
         pet.currentAction = 'happy';
         this.checkLevelUp(pet);
-        setTimeout(()=>{ pet.currentAction = 'walk'; }, 3000);
+        setTimeout(()=>{ if(pet.mood>=40) pet.currentAction='walk'; }, 3000);
       }
     },
     deductPoints(student, type, amount) {
@@ -247,14 +343,12 @@ const app = createApp({
       const expNeeded = pet.level * 100;
       if (pet.exp >= expNeeded) {
         pet.level++;
-        pet.exp = pet.exp - expNeeded;
+        pet.exp -= expNeeded;
         pet.mood = 100;
-        alert('🎉 ' + pet.species + ' 升级到 Lv.' + pet.level + '！');
+        setTimeout(() => alert('🎉 ' + pet.species + ' 升级到 Lv.' + pet.level + '！'), 200);
       }
     },
-    openPetDetail(student, pet) {
-      this.detailPet = { student, pet };
-    },
+    openPetDetail(student, pet) { this.detailPet = { student, pet }; },
     feedPet() {
       const pet = this.detailPet.pet;
       pet.hunger = Math.min(100, pet.hunger + 20);
@@ -279,26 +373,54 @@ const app = createApp({
       this.$nextTick(() => this.initZoo());
     },
     initZoo() {
-      const canvas = document.getElementById('zooCanvas');
-      if (!canvas) return;
-      canvas.innerHTML = '';
+      const bg = document.getElementById('zooBg');
+      if (!bg) return;
+      const oldPets = bg.querySelectorAll('.zoo-pet');
+      oldPets.forEach(el => el.remove());
       const allPets = [];
       this.students.forEach(s => {
         s.pets.forEach(p => allPets.push({ owner:s.name, species:p.species, action:p.currentAction }));
       });
-      const w = canvas.clientWidth || 800;
-      const h = canvas.clientHeight || 400;
+      const w = bg.clientWidth || 800;
+      const h = bg.clientHeight || 400;
+      const groundY = h * 0.55;
       allPets.forEach((p, i) => {
         const el = document.createElement('div');
-        el.style.cssText = 'position:absolute;font-size:2.2rem;cursor:pointer;';
-        el.style.left = (30 + (i*80) % (w-100)) + 'px';
-        el.style.top = (40 + Math.floor(i/Math.floor(w/80)) * 90) + 'px';
-        el.style.animation = 'walkAnim ' + (0.8 + Math.random()) + 's ease-in-out infinite';
-        el.textContent = this.petEmojis[p.species] || '🐾';
-        el.title = p.owner + '的' + p.species + ' (' + p.action + ')';
-        el.onclick = () => alert(p.owner + '的' + p.species + ' | 状态:' + p.action);
-        canvas.appendChild(el);
+        el.className = 'zoo-pet';
+        const svg = this.petShop[p.species] ? this.petShop[p.species].svg : this.petShop['小柴犬'].svg;
+        el.innerHTML = '<div class="zoo-pet-inner" style="width:55px;height:55px;">' + svg + '</div><div style="font-size:0.7rem;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,0.5);">' + p.owner + '</div>';
+        const x = 50 + (i * 90) % (w - 120);
+        const y = groundY - 60 + Math.sin(i*2)*15;
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.title = p.owner + '的' + p.species;
+        el.onclick = () => alert(p.owner + '的' + p.species);
+        bg.appendChild(el);
+        this.animateZooPet(el, w);
       });
+      for (let i = 0; i < 12; i++) {
+        const flower = document.createElement('span');
+        flower.className = 'zoo-flower';
+        flower.textContent = ['🌸','🌼','🌻','🍀','🌿','⭐'][i%6];
+        flower.style.left = (20 + i*60) + 'px';
+        flower.style.bottom = (20 + Math.random()*60) + 'px';
+        flower.style.animationDelay = (i*0.3) + 's';
+        bg.appendChild(flower);
+      }
+    },
+    animateZooPet(el, maxW) {
+      let x = parseFloat(el.style.left);
+      const speed = 0.08 + Math.random()*0.15;
+      let direction = Math.random() > 0.5 ? 1 : -1;
+      const animate = () => {
+        x += direction * speed;
+        if (x > maxW - 80) direction = -1;
+        if (x < 10) direction = 1;
+        el.style.left = x + 'px';
+        el.style.transform = 'scaleX(' + direction + ')';
+        requestAnimationFrame(animate);
+      };
+      animate();
     },
     openShop() {
       this.currentView = 'shop';
@@ -310,9 +432,9 @@ const app = createApp({
       const student = this.students.find(s => s.id === this.selectedStudentId);
       if (!student) { alert('请先选择一个学生'); return; }
       const stickers = Math.floor(student.points / 20);
-      if (stickers < item.cost) { alert('贴纸不够哦~'); return; }
+      if (stickers < item.cost) { alert('贴纸不够哦~还需要 ' + (item.cost-stickers) + ' 张'); return; }
       student.points -= item.cost * 20;
-      alert('✅ ' + student.name + ' 成功兑换 ' + item.name + '！');
+      alert('✅ ' + student.name + ' 成功兑换 ' + item.name + '！剩余贴纸：' + Math.floor(student.points/20));
     },
     addShopItem() {
       if (!this.newItemName) return;
