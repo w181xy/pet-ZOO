@@ -361,24 +361,19 @@ const app = createApp({
       this.hatchingSpeciesName = speciesName;
     },
     
-    // 确认孵化
-    confirmHatch() {
-      if (!this.hatchingPet) return;
-      const student = this.students.find(s => s.id === (this.selectingStudent?.id));
-      // 如果是从选择面板进来的，找到那个学生
-      const targetStudent = this.students[this.students.length - 1]; 
-      // 简化处理：加到最后一个学生（实际应该记住selectingStudent）
-      if (this.hatchingSpeciesName) {
-        const stu = this.selectingStudent || this.students[0];
-        stu.pets.push({
-          species: this.hatchingSpeciesName,
-          level: 1, exp: 0, mood: 80, energy: 80, hunger: 80, cleanliness: 80
-        });
-      }
-      this.hatchingPet = null;
-      this.hatchingSpeciesName = '';
-      this.selectingStudent = null;
-    },
+   // 确认孵化（加到选蛋的学生身上）
+confirmHatch() {
+  if (!this.hatchingPet || !this.selectingStudent) return;
+  
+  this.selectingStudent.pets.push({
+    species: this.hatchingSpeciesName,
+    level: 1, exp: 0, mood: 80, energy: 80, hunger: 80, cleanliness: 80
+  });
+  
+  this.hatchingPet = null;
+  this.hatchingSpeciesName = '';
+  this.selectingStudent = null;
+},
     
     deletePet(student, index) {
       if (confirm('确定放生 ' + student.pets[index].species + ' 吗？')) {
