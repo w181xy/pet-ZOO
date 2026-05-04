@@ -11,52 +11,41 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .zoom-btns { display:flex; gap:6px; position:absolute; right:14px; }
 .zoom-btn { width:34px; height:34px; border-radius:50%; border:none; cursor:pointer; font-weight:bold; font-size:1.3rem; background:#fff; color:#FF6B6B; display:flex; align-items:center; justify-content:center; }
 .zoom-label { font-size:0.9rem; color:#fff; min-width:50px; text-align:center; }
-
 .toolbar { display:flex; gap:6px; justify-content:center; padding:8px; background:#fff; position:sticky; top:50px; z-index:99; flex-wrap:wrap; border-bottom:2px solid #ffe0d0; }
 .btn { padding:7px 14px; border:none; border-radius:16px; cursor:pointer; font-weight:bold; font-size:0.85rem; }
-.btn-shop { background:#FFB347; color:#fff; } .btn-add { background:#FF7B7B; color:#fff; } .btn-custom { background:#c084fc; color:#fff; } .btn-group { background:#64b5f6; color:#fff; } .btn-batch { background:#ef5350; color:#fff; } .btn-import { background:#2ecc71; color:#fff; } .btn-log { background:#26c6da; color:#fff; }
-
+.btn-shop { background:#FFB347; color:#fff; } .btn-add { background:#FF7B7B; color:#fff; } .btn-custom { background:#c084fc; color:#fff; } .btn-group { background:#64b5f6; color:#fff; } .btn-batch { background:#ef5350; color:#fff; } .btn-import { background:#2ecc71; color:#fff; } .btn-log { background:#26c6da; color:#fff; } .btn-sync { background:#ff9800; color:#fff; }
 .scroll-container { overflow:auto; padding:10px; -webkit-overflow-scrolling:touch; }
 .student-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; min-width:0; width:100%; max-width:1200px; margin:0 auto; }
 @media (max-width:1024px) { .student-grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width:768px) { .student-grid { grid-template-columns: repeat(3, 1fr); gap:10px; } }
 @media (max-width:500px) { .student-grid { grid-template-columns: repeat(2, 1fr); gap:8px; } }
-
-.student-card { background:#fff; border-radius:16px; padding:10px; box-shadow:0 3px 12px rgba(0,0,0,0.06); text-align:center; position:relative; display:flex; flex-direction:column; align-items:center; }
+.student-card { background:#fff; border-radius:16px; padding:10px; box-shadow:0 3px 12px rgba(0,0,0,0.06); text-align:center; position:relative; }
 .student-card.selected { border:3px solid #ef5350; background:#fff5f5; }
-.student-check { position:absolute; top:6px; left:6px; z-index:5; transform:scale(1.2); }
+.student-check { position:absolute; top:6px; left:6px; z-index:5; }
 .student-name { font-weight:bold; font-size:0.95rem; color:#D4532A; margin-bottom:4px; }
 .student-group { font-size:0.7rem; background:#64b5f6; color:#fff; padding:2px 8px; border-radius:6px; }
 .student-points { font-size:0.8rem; color:#888; margin:4px 0; }
-
-/* 宠物展示区 - 放大的核心 */
-.display-pet { position:relative; padding:4px; background:#fffaf3; border-radius:14px; margin:4px 0; width:100%; }
-.display-pet img { width:110px; height:110px; object-fit:contain; border-radius:12px; display:block; margin:0 auto; }
+.display-pet { position:relative; padding:4px; background:#fffaf3; border-radius:14px; margin:4px 0; }
+.display-pet img { width:110px; height:110px; object-fit:contain; border-radius:12px; }
 @media (max-width:500px) { .display-pet img { width:85px; height:85px; } }
-
 .pet-warning { position:absolute; top:4px; right:4px; font-size:1.6rem; animation:pulse 1s infinite; }
 .pet-danger { position:absolute; top:4px; right:4px; font-size:1.6rem; animation:flash 0.5s infinite; }
 .pet-crown { position:absolute; top:0; right:4px; font-size:1.4rem; }
-@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
-@keyframes flash { 0%,100%{opacity:1;color:#f00;} 50%{opacity:0.3;} }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} } @keyframes flash { 0%,100%{opacity:1;color:#f00;} 50%{opacity:0.3;} }
 .hatch-ready { font-size:0.75rem; background:#FFD700; color:#fff; padding:4px 14px; border-radius:12px; animation:glow 1s infinite; cursor:pointer; display:inline-block; margin-top:4px; }
 @keyframes glow { 0%,100%{box-shadow:0 0 5px #FFD700;} 50%{box-shadow:0 0 18px #FFD700;} }
 .pet-stage-label { font-size:0.8rem; color:#888; margin-top:3px; }
 .pet-level { font-size:0.7rem; background:#FFB347; color:#fff; border-radius:8px; padding:3px 12px; display:inline-block; margin-top:2px; }
 .evo-bar { width:80%; height:6px; background:#eee; border-radius:3px; margin:5px auto; overflow:hidden; }
 .evo-fill { height:100%; border-radius:3px; transition:0.5s; }
-
 .card-actions { display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-top:6px; }
 .card-btn { font-size:0.65rem; border:none; border-radius:8px; padding:4px 10px; cursor:pointer; color:#fff; font-weight:bold; }
 .card-btn-warehouse { background:#6bc77b; } .card-btn-detail { background:#ff9a56; } .card-btn-adopt { background:#FFB347; } .card-btn-score { background:#c084fc; }
-
 .score-mini { margin-top:6px; padding:8px; background:#fafafa; border-radius:12px; text-align:left; width:100%; }
-.score-mini .score-section { margin:4px 0; }
-.score-mini .score-label { font-size:0.65rem; font-weight:bold; }
+.score-mini .score-section { margin:4px 0; } .score-mini .score-label { font-size:0.65rem; font-weight:bold; }
 .score-mini .btn-sm { padding:3px 8px; font-size:0.65rem; border-radius:8px; border:none; cursor:pointer; font-weight:bold; margin:2px; }
 .btn-plus { background:#b8e6b8; color:#2d5a2d; } .btn-minus { background:#ffcccc; color:#8b2020; }
 .no-pet { color:#ccc; font-size:0.85rem; padding:30px 0; }
-
 .overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:300; display:flex; align-items:center; justify-content:center; }
 .popup-card { background:#fff; border-radius:22px; padding:24px; max-width:560px; width:94%; max-height:85vh; overflow-y:auto; text-align:center; font-size:0.95rem; }
 .popup-card h3 { font-size:1.2rem; margin-bottom:12px; }
@@ -65,8 +54,7 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .dialog-box .reply-btn { display:block; width:85%; margin:10px auto; padding:12px; border-radius:20px; border:none; cursor:pointer; font-size:1rem; font-weight:bold; background:#fff3e0; color:#D4532A; }
 .warehouse-pet { display:flex; align-items:center; gap:10px; padding:10px; border-radius:12px; background:#fffaf3; margin:6px 0; text-align:left; }
 .warehouse-pet img { width:55px; height:55px; object-fit:contain; border-radius:8px; }
-.warehouse-pet .pet-info { flex:1; font-size:0.9rem; }
-.warehouse-pet .pet-actions { display:flex; gap:4px; flex-wrap:wrap; }
+.warehouse-pet .pet-info { flex:1; font-size:0.9rem; } .warehouse-pet .pet-actions { display:flex; gap:4px; flex-wrap:wrap; }
 .warehouse-pet .crown-tag { font-size:0.65rem; background:#FFD700; color:#fff; padding:2px 6px; border-radius:5px; }
 .warehouse-pet .status-mini { font-size:0.65rem; color:#999; }
 .group-member { display:flex; align-items:center; gap:8px; padding:8px 12px; margin:4px 0; border-radius:10px; background:#f5f5f5; text-align:left; font-size:0.9rem; }
@@ -74,30 +62,20 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .shop-item { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #eee; font-size:0.9rem; }
 .detail-popup { background:#fff; border-radius:22px; padding:24px; max-width:380px; width:94%; text-align:center; font-size:0.95rem; }
 .detail-popup img { width:130px; height:130px; object-fit:contain; margin:14px 0; }
-.detail-popup h3 { font-size:1.2rem; }
 .detail-popup progress { width:75%; height:16px; }
 .btn-sm { padding:5px 12px; border:none; border-radius:14px; cursor:pointer; font-weight:bold; font-size:0.8rem; }
-
 .log-panel { max-width:900px; margin:10px auto; background:#fff; border-radius:18px; padding:18px; font-size:0.9rem; }
 .log-list { max-height:400px; overflow-y:auto; text-align:left; }
 .log-item { padding:8px 12px; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between; flex-wrap:wrap; font-size:0.85rem; }
-.log-time { color:#999; font-size:0.75rem; }
-.log-plus { color:#2d5a2d; } .log-minus { color:#8b2020; }
-
+.log-time { color:#999; font-size:0.75rem; } .log-plus { color:#2d5a2d; } .log-minus { color:#8b2020; }
 .settings-row { display:flex; align-items:center; gap:8px; margin:8px 0; }
 .settings-row input, .settings-row select { padding:6px 10px; border-radius:8px; border:1px solid #ddd; font-size:0.85rem; }
+.sync-status { font-size:0.75rem; color:#888; text-align:center; padding:4px; }
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="header">
-    🐾 班级宠物乐园
-    <div class="zoom-btns">
-      <button class="zoom-btn" @click="zoomOut">−</button>
-      <span class="zoom-label">{{ zoomPercent }}</span>
-      <button class="zoom-btn" @click="zoomIn">+</button>
-    </div>
-  </div>
+  <div class="header">🐾 班级宠物乐园<div class="zoom-btns"><button class="zoom-btn" @click="zoomOut">−</button><span class="zoom-label">{{ zoomPercent }}</span><button class="zoom-btn" @click="zoomIn">+</button></div></div>
   <div class="toolbar">
     <button class="btn btn-import" @click="showImport=true">📋 导入姓名</button>
     <button class="btn btn-shop" @click="openShop">🎁 商城</button>
@@ -106,48 +84,57 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
     <button class="btn btn-group" @click="showGroupPanel=!showGroupPanel">👥 分组</button>
     <button class="btn btn-batch" @click="toggleBatchMode">{{ batchMode ? '退出批量' : '☑ 批量' }}</button>
     <button class="btn btn-log" @click="showLogPanel=!showLogPanel">📋 记录</button>
+    <button class="btn btn-sync" @click="syncNow">🔄 同步</button>
   </div>
+  <div class="sync-status">{{ syncMsg }}</div>
 
+  <!-- 导入姓名 -->
   <div class="overlay" v-if="showImport" @click.self="showImport=false"><div class="popup-card"><h3>📋 导入学生姓名</h3><textarea class="import-textarea" v-model="importText" placeholder="每行一个姓名&#10;张三&#10;李四&#10;王五"></textarea><div style="margin-top:12px;display:flex;gap:10px;justify-content:center;"><button class="btn" style="background:#2ecc71;color:#fff;" @click="importNames">✅ 追加</button><button class="btn" style="background:#ef5350;color:#fff;" @click="replaceNames">🔄 覆盖</button><button class="btn" style="background:#ddd;" @click="showImport=false">取消</button></div></div></div>
+
+  <!-- 分组 -->
   <div v-if="showGroupPanel" style="max-width:900px;margin:10px auto;background:#fff;border-radius:18px;padding:18px;"><h4 style="color:#1565c0;font-size:1.1rem;">👥 分组管理</h4><div class="settings-row"><input v-model="newGroupName" placeholder="新分组名"><button class="btn-sm btn-plus" @click="addGroup">创建分组</button></div><div class="settings-row"><select v-model="editingGroup"><option value="">-选择分组-</option><option v-for="g in groups" :value="g">{{ g }}</option></select><button class="btn-sm btn-minus" @click="deleteGroup" v-if="editingGroup">删除此组</button></div><div v-if="editingGroup" style="max-height:250px;overflow-y:auto;text-align:left;border:1px solid #eee;border-radius:12px;padding:12px;margin-top:8px;"><label v-for="s in students" :key="s.id" class="group-member"><input type="checkbox" :checked="s.group===editingGroup" @change="toggleGroupMember(s, editingGroup)">{{ s.name }}</label></div><button class="btn-sm" style="background:#ddd;margin-top:10px;" @click="showGroupPanel=false; editingGroup='';">关闭</button></div>
+
+  <!-- 自定义加减分 -->
   <div v-if="showCustomPanel" style="max-width:900px;margin:10px auto;background:#fff;border-radius:18px;padding:18px;"><h4 style="color:#5b21b6;font-size:1.1rem;">⚙️ 自定义加减分</h4><div v-for="(act,idx) in customActions" :key="idx" class="settings-row"><input v-model="act.icon" placeholder="图标" style="width:50px;"><input v-model="act.name" placeholder="名称" style="width:100px;"><input v-model.number="act.points" type="number" placeholder="分值" style="width:60px;"><select v-model="act.type"><option value="plus">加分</option><option value="minus">扣分</option></select><button class="btn-sm btn-minus" @click="customActions.splice(idx,1)">删除</button></div><button class="btn-sm btn-plus" @click="customActions.push({name:'',icon:'⭐',points:1,type:'plus'})">➕ 添加行为</button><button class="btn-sm" style="background:#c084fc;color:#fff;margin-left:8px;" @click="saveSettings">保存设置</button></div>
 
+  <!-- 记录 -->
   <div v-if="showLogPanel" class="log-panel"><h4 style="font-size:1.1rem;">📋 加减分记录</h4><div class="settings-row"><label>保存时长：</label><select v-model="logRetention" @change="cleanLogs"><option value="7">7天</option><option value="14">14天</option><option value="30">30天</option><option value="90">90天</option><option value="365">1年</option><option value="0">永久</option></select><button class="btn-sm btn-minus" @click="clearAllLogs">清空记录</button></div><div class="log-list"><div v-if="filteredLogs.length===0" style="color:#ccc;text-align:center;padding:30px;">暂无记录</div><div v-for="(log, idx) in filteredLogs" :key="idx" class="log-item"><span><b>{{ log.student }}</b> <span :class="log.type==='plus'?'log-plus':'log-minus'">{{ log.type==='plus'?'+':'-' }}{{ log.points }}</span> {{ log.reason }}</span><span class="log-time">{{ formatTime(log.time) }}</span></div></div><button class="btn-sm" style="background:#ddd;margin-top:10px;" @click="showLogPanel=false">关闭</button></div>
 
+  <!-- 批量 -->
   <div style="display:flex;gap:8px;align-items:center;padding:8px 14px;background:#fff3e0;max-width:1200px;margin:0 auto;border-radius:14px;flex-wrap:wrap;font-size:0.85rem;" v-if="batchMode"><label><input type="checkbox" @change="toggleAll" :checked="allChecked">全选</label><span>{{ checkedIds.length }}人</span><select v-model="batchGroup"><option value="">-加入分组-</option><option v-for="g in groups" :value="g">{{ g }}</option></select><button class="btn-sm btn-plus" @click="batchAddGroup" v-if="batchGroup">加入</button><button class="btn-sm btn-plus" @click="batchScore('plus',5)">+5</button><button class="btn-sm btn-plus" @click="batchScore('plus',3)">+3</button><button class="btn-sm btn-minus" @click="batchScore('minus',3)">-3</button><button class="btn-sm btn-minus" @click="batchScore('minus',2)">-2</button><input v-model.number="batchCustomPoints" type="number" placeholder="自定义" style="width:70px;padding:5px 8px;border-radius:8px;border:1px solid #ddd;font-size:0.85rem;"><button class="btn-sm btn-plus" @click="batchScore('plus',batchCustomPoints)">加分</button><button class="btn-sm btn-minus" @click="batchScore('minus',batchCustomPoints)">扣分</button></div>
 
-  <div class="scroll-container">
-    <div class="student-grid" :style="{transform: 'scale('+zoomLevel+')', transformOrigin: 'top left', width: (100/zoomLevel)+'%'}" v-if="currentView==='main'">
-      <div v-for="s in students" :key="s.id" class="student-card" :class="{selected: checkedIds.includes(s.id)}">
-        <input type="checkbox" class="student-check" v-if="batchMode" :value="s.id" v-model="checkedIds">
-        <div class="student-name">{{ s.name }}<span class="student-group" v-if="s.group"> {{ s.group }}</span></div>
-        <div class="student-points">⭐{{ s.points }} 🪙{{ s.coins }}</div>
-        <div class="display-pet" v-if="s.showPet">
-          <span class="pet-warning" v-if="hasWarning(s.showPet)&&!isDegenerated(s.showPet)">😢</span>
-          <span class="pet-danger" v-if="isDegenerated(s.showPet)">⚠️</span>
-          <span class="pet-crown" v-if="isMaxLevel(s.showPet)">👑</span>
-          <img :src="getCurrentImage(s.showPet)">
-          <div class="pet-stage-label">{{ getStageLabel(s.showPet) }}</div>
-          <span class="pet-level">Lv.{{ s.showPet.level }}</span>
-          <div class="evo-bar"><div class="evo-fill" :style="{width:getEvoProgress(s.showPet)+'%', background:getSpeciesData(s.showPet).color}"></div></div>
-          <div class="hatch-ready" v-if="canHatch(s.showPet)" @click="triggerHatch(s, s.showPet)">✨ 孵化！</div>
-        </div>
-        <div class="no-pet" v-else>暂无宠物</div>
-        <div class="card-actions">
-          <button class="card-btn card-btn-adopt" @click="openAdopt(s)" v-if="!s.showPet">🥚领养</button>
-          <button class="card-btn card-btn-warehouse" @click="openWarehouse(s)" v-if="s.pets.length>0">🏠仓库</button>
-          <button class="card-btn card-btn-detail" @click="openDetail(s, s.showPet)" v-if="s.showPet">🔍详情</button>
-          <button class="card-btn card-btn-score" @click="s.showScore=!s.showScore">{{ s.showScore?'收起':'加减分' }}</button>
-        </div>
-        <div class="score-mini" v-if="s.showScore">
-          <div class="score-section" v-if="s.group"><span class="score-label" style="color:#1565c0;">👥组：</span><button class="btn-sm btn-plus" @click="groupScore(s.group,'plus',5)">+5</button><button class="btn-sm btn-plus" @click="groupScore(s.group,'plus',3)">+3</button><button class="btn-sm btn-minus" @click="groupScore(s.group,'minus',3)">-3</button></div>
-          <div class="score-section"><span class="score-label" style="color:#2d5a2d;">✅加分：</span><button class="btn-sm btn-plus" @click="addPoints(s,'homework',5)">📝作业+5</button><button class="btn-sm btn-plus" @click="addPoints(s,'handUp',3)">🙋举手+3</button><button class="btn-sm btn-plus" @click="addPoints(s,'duty',4)">🧹值日+4</button><template v-for="(act,idx) in customActions" :key="'p'+idx"><button v-if="act.name&&act.type==='plus'" class="btn-sm btn-plus" @click="addPoints(s,'custom',act.points)">{{ act.icon }}{{ act.name }}+{{ act.points }}</button></template></div>
-          <div class="score-section"><span class="score-label" style="color:#8b2020;">❌扣分：</span><button class="btn-sm btn-minus" @click="deductPoints(s,3)">⏰迟到-3</button><button class="btn-sm btn-minus" @click="deductPoints(s,2)">💬讲话-2</button><template v-for="(act,idx) in customActions" :key="'m'+idx"><button v-if="act.name&&act.type==='minus'" class="btn-sm btn-minus" @click="deductPoints(s,Math.abs(act.points))">{{ act.icon }}{{ act.name }}-{{ Math.abs(act.points) }}</button></template></div>
-        </div>
+  <!-- 学生网格 -->
+  <div class="scroll-container"><div class="student-grid" :style="{transform: 'scale('+zoomLevel+')', transformOrigin: 'top left', width: (100/zoomLevel)+'%'}" v-if="currentView==='main'">
+    <div v-for="s in students" :key="s.id" class="student-card" :class="{selected: checkedIds.includes(s.id)}">
+      <input type="checkbox" class="student-check" v-if="batchMode" :value="s.id" v-model="checkedIds">
+      <div class="student-name">{{ s.name }}<span class="student-group" v-if="s.group"> {{ s.group }}</span></div>
+      <div class="student-points">⭐{{ s.points }} 🪙{{ s.coins }}</div>
+      <div class="display-pet" v-if="s.showPet">
+        <span class="pet-warning" v-if="hasWarning(s.showPet)&&!isDegenerated(s.showPet)">😢</span>
+        <span class="pet-danger" v-if="isDegenerated(s.showPet)">⚠️</span>
+        <span class="pet-crown" v-if="isMaxLevel(s.showPet)">👑</span>
+        <img :src="getCurrentImage(s.showPet)">
+        <div class="pet-stage-label">{{ getStageLabel(s.showPet) }}</div>
+        <span class="pet-level">Lv.{{ s.showPet.level }}</span>
+        <div class="evo-bar"><div class="evo-fill" :style="{width:getEvoProgress(s.showPet)+'%', background:getSpeciesData(s.showPet).color}"></div></div>
+        <div class="hatch-ready" v-if="canHatch(s.showPet)" @click="triggerHatch(s, s.showPet)">✨ 孵化！</div>
+      </div>
+      <div class="no-pet" v-else>暂无宠物</div>
+      <div class="card-actions">
+        <button class="card-btn card-btn-adopt" @click="openAdopt(s)" v-if="!s.showPet">🥚领养</button>
+        <button class="card-btn card-btn-warehouse" @click="openWarehouse(s)" v-if="s.pets.length>0">🏠仓库</button>
+        <button class="card-btn card-btn-detail" @click="openDetail(s, s.showPet)" v-if="s.showPet">🔍详情</button>
+        <button class="card-btn card-btn-score" @click="s.showScore=!s.showScore">{{ s.showScore?'收起':'加减分' }}</button>
+      </div>
+      <div class="score-mini" v-if="s.showScore">
+        <div class="score-section" v-if="s.group"><span class="score-label" style="color:#1565c0;">👥组：</span><button class="btn-sm btn-plus" @click="groupScore(s.group,'plus',5)">+5</button><button class="btn-sm btn-plus" @click="groupScore(s.group,'plus',3)">+3</button><button class="btn-sm btn-minus" @click="groupScore(s.group,'minus',3)">-3</button></div>
+        <div class="score-section"><span class="score-label" style="color:#2d5a2d;">✅加分：</span><button class="btn-sm btn-plus" @click="addPoints(s,'homework',5)">📝作业+5</button><button class="btn-sm btn-plus" @click="addPoints(s,'handUp',3)">🙋举手+3</button><button class="btn-sm btn-plus" @click="addPoints(s,'duty',4)">🧹值日+4</button><template v-for="(act,idx) in customActions" :key="'p'+idx"><button v-if="act.name&&act.type==='plus'" class="btn-sm btn-plus" @click="addPoints(s,'custom',act.points)">{{ act.icon }}{{ act.name }}+{{ act.points }}</button></template></div>
+        <div class="score-section"><span class="score-label" style="color:#8b2020;">❌扣分：</span><button class="btn-sm btn-minus" @click="deductPoints(s,3)">⏰迟到-3</button><button class="btn-sm btn-minus" @click="deductPoints(s,2)">💬讲话-2</button><template v-for="(act,idx) in customActions" :key="'m'+idx"><button v-if="act.name&&act.type==='minus'" class="btn-sm btn-minus" @click="deductPoints(s,Math.abs(act.points))">{{ act.icon }}{{ act.name }}-{{ Math.abs(act.points) }}</button></template></div>
       </div>
     </div>
-  </div>
+  </div></div>
 
+  <!-- 其他弹窗 -->
   <div class="overlay" v-if="adoptingStudent" @click.self="adoptingStudent=null"><div class="popup-card"><h3>🥚 给 {{ adoptingStudent.name }} 随机领养</h3><button class="btn" style="background:#FFB347;color:#fff;font-size:1.1rem;padding:14px 36px;" @click="adoptRandom">🎲 随机抽取！</button><br><button class="btn" style="background:#ddd;margin-top:12px;" @click="adoptingStudent=null">取消</button></div></div>
   <div class="overlay" v-if="dialogData" @click.self="dialogData=null"><div class="dialog-box"><img :src="getCurrentImage(dialogData.pet)" style="width:120px;height:120px;object-fit:contain;"><p style="font-size:1.1rem;color:#D4532A;margin:12px 0;">🐾 "谢谢你！我长大了！"</p><button class="reply-btn" @click="dialogReply">😊 不客气</button><button class="reply-btn" @click="dialogReply">✋ 举手之劳</button><button class="reply-btn" @click="dialogReply">💕 我也很开心</button></div></div>
   <div class="overlay" v-if="dialogPart2"><div class="dialog-box"><p style="font-size:1.1rem;color:#D4532A;margin:12px 0;">🥚 "送你一枚宠物蛋！"</p><button class="btn" style="background:#FFB347;color:#fff;font-size:1.1rem;" @click="dialogGetEgg">🎁 领取宠物蛋</button></div></div>
@@ -158,6 +145,8 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script>
+const SUPABASE_URL = 'https://oncukvikhlimdfbfvlxnu.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_h4h3YJ6F7swzKHc2BRPQgA_9nvuQWAl';
 const PET_SPECIES = {
   '宠物1': { color: '#4a90d9', stages: [{ level:1, name:'蛋', image:'https://imgur.com/5P6B1XA.png' },{ level:2, name:'幼崽', image:'https://imgur.com/ErVt6io.png' },{ level:3, name:'成长', image:'https://imgur.com/Ykp0wXR.png' },{ level:4, name:'成熟', image:'https://imgur.com/69S6rHu.png' },{ level:5, name:'觉醒', image:'https://imgur.com/3qd3R7K.png' },{ level:6, name:'传说', image:'https://imgur.com/1djUuve.png' }] },
   '宠物2': { color: '#e74c3c', stages: [{ level:1, name:'蛋', image:'https://imgur.com/h54GfTA.png' },{ level:2, name:'幼崽', image:'https://imgur.com/gdpVkf4.png' },{ level:3, name:'成长', image:'https://imgur.com/cpZiaDB.png' },{ level:4, name:'成熟', image:'https://imgur.com/sqZ7Vk2.png' },{ level:5, name:'觉醒', image:'https://imgur.com/WkBeFAc.png' },{ level:6, name:'传说', image:'https://imgur.com/5aw5olw.png' }] },
@@ -167,19 +156,15 @@ const ACTION_COST=1, MAX_EXP_BONUS=200;
 const { createApp } = Vue;
 const app = createApp({
   data() {
-    const s = JSON.parse(localStorage.getItem('pet_zoo_v20') || '{}');
-    const students = s.students && s.students.length>0 ? s.students : [];
-    students.forEach(stu => stu.pets.forEach(p => { const n=Date.now(); if(!p.lastFeed)p.lastFeed=n; if(!p.lastPlay)p.lastPlay=n; if(!p.lastRest)p.lastRest=n; if(!p.lastClean)p.lastClean=n; }));
     return {
-      currentView:'main', students, petSpecies:PET_SPECIES, zoomLevel:1, showImport:false, importText:'',
-      shopItems: s.shopItems || [{ id:1, icon:'🪙', name:'宠物币x5', cost:20 },{ id:2, icon:'🪙', name:'宠物币x10', cost:35 }],
-      customActions: s.customActions || [], groups: s.groups || [],
-      scoreLogs: s.scoreLogs || [], logRetention: s.logRetention || 30,
+      currentView:'main', students:[], petSpecies:PET_SPECIES, zoomLevel:1, showImport:false, importText:'',
+      shopItems: [{ id:1, icon:'🪙', name:'宠物币x5', cost:20 },{ id:2, icon:'🪙', name:'宠物币x10', cost:35 }],
+      customActions: [], groups: [], scoreLogs: [], logRetention: 30, syncMsg:'正在加载...',
       showCustomPanel:false, showGroupPanel:false, showLogPanel:false, batchMode:false,
       detailPet:null, adoptingStudent:null, warehouseStudent:null, dialogData:null, dialogPart2:false, dialogStudent:null,
       editingGroup:'', newGroupName:'', selectedStudentId:null,
       newItemName:'', newItemCost:20, batchGroup:'', batchCustomPoints:1,
-      checkedIds:[], studentCounter: students.length+1
+      checkedIds:[], studentCounter:1
     }
   },
   computed: {
@@ -192,20 +177,87 @@ const app = createApp({
     }
   },
   watch: {
-    students:{deep:true,handler:'saveAll'}, shopItems:{deep:true,handler:'saveAll'},
-    customActions:{deep:true,handler:'saveAll'}, groups:{deep:true,handler:'saveAll'},
-    scoreLogs:{deep:true,handler:'saveAll'}, logRetention(){ this.saveAll(); }
+    students:{deep:true,handler:'autoSave'}, shopItems:{deep:true,handler:'autoSave'},
+    customActions:{deep:true,handler:'autoSave'}, groups:{deep:true,handler:'autoSave'},
+    scoreLogs:{deep:true,handler:'autoSave'}, logRetention(){ this.autoSave(); }
   },
-  mounted(){ this.autoSetShowPet(); this.checkAllStatus(); setInterval(()=>this.checkAllStatus(),30000); },
+  async mounted(){
+    await this.loadFromCloud();
+    this.autoSetShowPet();
+    this.checkAllStatus();
+    setInterval(()=>this.checkAllStatus(),30000);
+  },
   methods: {
-    saveAll(){ localStorage.setItem('pet_zoo_v20', JSON.stringify({ students:this.students, shopItems:this.shopItems, customActions:this.customActions, groups:this.groups, scoreLogs:this.scoreLogs, logRetention:this.logRetention })); },
-    saveSettings(){ this.saveAll(); alert('已保存！'); },
+    async loadFromCloud(){
+      try {
+        const res = await fetch(SUPABASE_URL+'/rest/v1/zoo_data?id=eq.main', {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer '+SUPABASE_KEY }
+        });
+        const data = await res.json();
+        if (data && data.length>0 && data[0].data) {
+          const d = data[0].data;
+          if (d.students) this.students = d.students;
+          if (d.shopItems) this.shopItems = d.shopItems;
+          if (d.customActions) this.customActions = d.customActions;
+          if (d.groups) this.groups = d.groups;
+          if (d.scoreLogs) this.scoreLogs = d.scoreLogs;
+          if (d.logRetention) this.logRetention = d.logRetention;
+          this.studentCounter = this.students.length + 1;
+          this.syncMsg = '✅ 数据已加载';
+        } else {
+          this.syncMsg = '📋 暂无数据，请导入学生';
+        }
+      } catch(e) {
+        this.syncMsg = '⚠️ 加载失败，使用本地数据';
+        this.loadLocal();
+      }
+      setTimeout(()=>{ this.syncMsg=''; }, 3000);
+    },
+    async syncNow(){
+      this.syncMsg = '🔄 同步中...';
+      await this.uploadToCloud();
+      await this.loadFromCloud();
+      this.syncMsg = '✅ 同步完成！';
+      setTimeout(()=>{ this.syncMsg=''; }, 3000);
+    },
+    async uploadToCloud(){
+      const saveData = {
+        students: this.students, shopItems: this.shopItems,
+        customActions: this.customActions, groups: this.groups,
+        scoreLogs: this.scoreLogs, logRetention: this.logRetention
+      };
+      try {
+        await fetch(SUPABASE_URL+'/rest/v1/zoo_data?id=eq.main', {
+          method: 'PATCH',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer '+SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ data: saveData, updated_at: new Date().toISOString() })
+        });
+      } catch(e) { console.log('upload error', e); }
+    },
+    autoSave(){
+      localStorage.setItem('pet_zoo_local', JSON.stringify({
+        students: this.students, shopItems: this.shopItems,
+        customActions: this.customActions, groups: this.groups,
+        scoreLogs: this.scoreLogs, logRetention: this.logRetention
+      }));
+      this.uploadToCloud();
+    },
+    loadLocal(){
+      const s = JSON.parse(localStorage.getItem('pet_zoo_local') || '{}');
+      if (s.students) this.students = s.students;
+      if (s.shopItems) this.shopItems = s.shopItems;
+      if (s.customActions) this.customActions = s.customActions;
+      if (s.groups) this.groups = s.groups;
+      if (s.scoreLogs) this.scoreLogs = s.scoreLogs;
+      if (s.logRetention) this.logRetention = s.logRetention;
+      this.studentCounter = this.students.length + 1;
+    },
+    saveSettings(){ alert('已保存！'); },
     addLog(studentName, type, points, reason){
       this.scoreLogs.push({ student:studentName, type, points, reason, time:Date.now() });
       if (this.scoreLogs.length > 2000) this.scoreLogs.splice(0, 500);
     },
-    cleanLogs(){ this.saveAll(); },
-    clearAllLogs(){ if(confirm('确定清空所有记录？')){ this.scoreLogs=[]; } },
+    cleanLogs(){}, clearAllLogs(){ if(confirm('确定清空？')){ this.scoreLogs=[]; } },
     formatTime(ts){ const d=new Date(ts); return d.getMonth()+1+'/'+d.getDate()+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); },
     zoomIn(){ this.zoomLevel=Math.min(3, this.zoomLevel+0.1); },
     zoomOut(){ this.zoomLevel=Math.max(0.3, this.zoomLevel-0.1); },
@@ -224,7 +276,7 @@ const app = createApp({
     checkAllStatus(){
       const now=Date.now(), oneDay=86400000;
       this.students.forEach(stu=>{ for(let i=stu.pets.length-1;i>=0;i--){ const p=stu.pets[i]; if(now-(p.lastFeed||now)>oneDay){ p.hunger=Math.max(0,p.hunger-15); p.lastFeed=now; } if(now-(p.lastPlay||now)>oneDay){ p.mood=Math.max(0,p.mood-15); p.lastPlay=now; } if(now-(p.lastRest||now)>oneDay){ p.energy=Math.max(0,p.energy-15); p.lastRest=now; } if(now-(p.lastClean||now)>oneDay){ p.cleanliness=Math.max(0,p.cleanliness-15); p.lastClean=now; } if(p.mood<=0&&p.energy<=0&&p.hunger<=0&&p.cleanliness<=0){ if(stu.showPet===p) stu.showPet=stu.pets.find(pt=>pt!==p)||null; stu.pets.splice(i,1); continue; } if(p.level>1&&this.isDegenerated(p)){ p.level--; p.exp=(p.level-1)*100; p.mood=Math.min(p.mood,40); p.energy=Math.min(p.energy,40); p.hunger=Math.min(p.hunger,40); p.cleanliness=Math.min(p.cleanliness,40); } } if(!stu.showPet&&stu.pets.length>0){ const nonMax=stu.pets.find(p=>!this.isMaxLevel(p)); stu.showPet=nonMax||stu.pets[0]; } });
-      this.saveAll();
+      this.autoSave();
     },
     triggerHatch(stu, pet){ pet.level=2; pet.exp=0; pet.mood=100; alert('✨ 蛋孵化了！'); },
     rewardDialog(stu, pet){ this.dialogData={ stu, pet }; this.dialogStudent=stu; },
