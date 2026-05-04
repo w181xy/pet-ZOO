@@ -39,7 +39,6 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 
 .pet-species { font-size:0.75rem; color:#888; margin-top:2px; }
 .pet-level { font-size:0.65rem; background:#FFB347; color:#fff; border-radius:8px; padding:1px 8px; display:inline-block; }
-
 .evo-bar { width:100%; height:6px; background:#eee; border-radius:3px; margin-top:4px; overflow:hidden; }
 .evo-fill { height:100%; border-radius:3px; transition:0.5s; }
 
@@ -58,9 +57,6 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .egg-option img { width:70px; height:70px; object-fit:contain; }
 .egg-option .egg-label { font-size:0.8rem; color:#999; margin-top:4px; }
 
-.hatch-anim { animation: hatchShake 0.3s ease-in-out 5; }
-@keyframes hatchShake { 0%,100%{transform:rotate(0);} 25%{transform:rotate(-8deg);} 75%{transform:rotate(8deg);} }
-
 .zoo-container { width:100%; height:60vh; background:linear-gradient(180deg, #87CEEB 0%, #b8e6b8 40%, #7bc67e 70%, #4a8c3f 100%); 
   border-radius:16px; position:relative; overflow:hidden; margin:8px; }
 .zoo-pet { position:absolute; cursor:pointer; z-index:10; text-align:center; transition:left 3s linear; }
@@ -74,11 +70,11 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .detail-popup img { width:120px; height:120px; object-fit:contain; margin:10px 0; }
 .detail-popup progress { width:70%; accent-color:#ff9a56; }
 
-.evo-stages { display:flex; justify-content:center; gap:8px; margin:10px 0; flex-wrap:wrap; }
+.evo-stages { display:flex; justify-content:center; gap:4px; margin:10px 0; flex-wrap:wrap; }
 .evo-stage { text-align:center; opacity:0.4; transition:0.3s; }
 .evo-stage.unlocked { opacity:1; }
 .evo-stage.current { opacity:1; transform:scale(1.15); }
-.evo-stage img { width:36px; height:36px; object-fit:contain; border-radius:50%; border:2px solid #ddd; }
+.evo-stage img { width:30px; height:30px; object-fit:contain; border-radius:50%; border:2px solid #ddd; }
 .evo-stage.current img { border-color:#ffb347; box-shadow:0 0 8px rgba(255,179,71,0.5); }
 .evo-stage .stage-arrow { font-size:0.6rem; color:#ccc; }
 
@@ -128,8 +124,7 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
   <!-- 选蛋面板 -->
   <div class="overlay" v-if="selectingStudent" @click.self="selectingStudent=null">
     <div class="select-card">
-      <h3>🥚 选择一颗宠物蛋</h3>
-      <p style="color:#999;">给 {{ selectingStudent.name }} 选一颗蛋吧！</p>
+      <h3>🥚 给 {{ selectingStudent.name }} 选一颗宠物蛋</h3>
       <div class="egg-grid">
         <div v-for="(petData, name) in petSpecies" :key="name" class="egg-option" @click="hatchEgg(name)">
           <img :src="petData.stages[0].image" :alt="name">
@@ -137,20 +132,6 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
         </div>
       </div>
       <button class="btn" style="background:#ddd;margin-top:8px;" @click="selectingStudent=null">取消</button>
-    </div>
-  </div>
-
-  <!-- 孵化弹窗 -->
-  <div class="overlay" v-if="hatching">
-    <div class="select-card">
-      <h3>✨ 孵化中... ✨</h3>
-      <img :src="hatching.speciesData.stages[0].image" class="hatch-anim" style="width:120px;height:120px;object-fit:contain;">
-      <p style="font-size:1.1rem;font-weight:bold;color:#D4532A;margin:10px 0;">
-        🎉 孵化出了 {{ hatching.name }}！
-      </p>
-      <img :src="hatching.speciesData.stages[1].image" style="width:100px;height:100px;object-fit:contain;">
-      <p style="color:#888;">{{ hatching.speciesData.stages[1].name }}</p>
-      <button class="btn" style="background:#FFB347;color:#fff;margin-top:10px;" @click="confirmHatch">太棒了！</button>
     </div>
   </div>
 
@@ -187,15 +168,15 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
       <div class="evo-stages">
         <template v-for="(stage, idx) in getSpeciesData(detailPet.pet).stages" :key="idx">
           <div class="evo-stage" :class="{unlocked: detailPet.pet.level > stage.level, current: detailPet.pet.level === stage.level}">
-            <img :src="stage.image"><div style="font-size:0.55rem;">{{ stage.name }}</div>
+            <img :src="stage.image"><div style="font-size:0.5rem;">{{ stage.name }}</div>
           </div>
           <span v-if="idx < 5" class="stage-arrow">→</span>
         </template>
       </div>
-      <p>😊心情 <progress :value="detailPet.pet.mood" max="100"></progress> {{ detailPet.pet.mood }}</p>
-      <p>⚡活力 <progress :value="detailPet.pet.energy" max="100"></progress> {{ detailPet.pet.energy }}</p>
-      <p>🍞饱食 <progress :value="detailPet.pet.hunger" max="100"></progress> {{ detailPet.pet.hunger }}</p>
-      <p>🧹整洁 <progress :value="detailPet.pet.cleanliness" max="100"></progress> {{ detailPet.pet.cleanliness }}</p>
+      <p>😊心情 <progress :value="detailPet.pet.mood" max="100"></progress></p>
+      <p>⚡活力 <progress :value="detailPet.pet.energy" max="100"></progress></p>
+      <p>🍞饱食 <progress :value="detailPet.pet.hunger" max="100"></progress></p>
+      <p>🧹整洁 <progress :value="detailPet.pet.cleanliness" max="100"></progress></p>
       <button class="btn-sm" style="background:#ff9a56;color:#fff;" @click="feedPet">🍎喂食</button>
       <button class="btn-sm" style="background:#ffb347;color:#fff;margin-left:4px;" @click="playPet">🎾玩耍</button>
       <button class="btn-sm" style="background:#6bc77b;color:#fff;margin-left:4px;" @click="restPet">😴休息</button>
@@ -223,12 +204,12 @@ const PET_SPECIES = {
 const { createApp } = Vue;
 const app = createApp({
   data() {
-    const saved = JSON.parse(localStorage.getItem('pet_zoo_v5') || '{}');
+    const saved = JSON.parse(localStorage.getItem('pet_zoo_v6') || '{}');
     return {
       currentView: 'main',
       students: saved.students || [
         { id:'s1', name:'小明', points:45, pets:[{ species:'史迪奇', level:2, exp:180, mood:80, energy:70, hunger:60, cleanliness:80 }] },
-        { id:'s2', name:'小红', points:30, pets:[{ species:'史迪奇', level:1, exp:40, mood:75, energy:85, hunger:50, cleanliness:80 }] },
+        { id:'s2', name:'小红', points:30, pets:[] },
         { id:'s3', name:'小华', points:80, pets:[] }
       ],
       shopItems: saved.shopItems || [
@@ -238,7 +219,6 @@ const app = createApp({
       petSpecies: PET_SPECIES,
       detailPet: null,
       selectingStudent: null,
-      hatching: null,
       selectedStudentId: null,
       newItemName: '', newItemCost: 5,
       studentCounter: 4
@@ -249,51 +229,37 @@ const app = createApp({
     shopItems: { deep:true, handler:'saveAll' }
   },
   methods: {
-    saveAll() {
-      localStorage.setItem('pet_zoo_v5', JSON.stringify({ students: this.students, shopItems: this.shopItems }));
-    },
+    saveAll() { localStorage.setItem('pet_zoo_v6', JSON.stringify({ students: this.students, shopItems: this.shopItems })); },
     getSpeciesData(pet) { return this.petSpecies[pet.species] || Object.values(this.petSpecies)[0]; },
     getCurrentImage(pet) {
       const sd = this.getSpeciesData(pet);
-      let stage = sd.stages[0];
-      for (let i = sd.stages.length-1; i>=0; i--) { if (pet.level >= sd.stages[i].level) { stage = sd.stages[i]; break; } }
-      return stage.image;
+      let s = sd.stages[0];
+      for (let i=sd.stages.length-1; i>=0; i--) { if (pet.level >= sd.stages[i].level) { s=sd.stages[i]; break; } }
+      return s.image;
     },
     getCurrentStageName(pet) {
       const sd = this.getSpeciesData(pet);
-      let stage = sd.stages[0];
-      for (let i = sd.stages.length-1; i>=0; i--) { if (pet.level >= sd.stages[i].level) { stage = sd.stages[i]; break; } }
-      return stage.name;
+      let s = sd.stages[0];
+      for (let i=sd.stages.length-1; i>=0; i--) { if (pet.level >= sd.stages[i].level) { s=sd.stages[i]; break; } }
+      return s.name;
     },
     getEvoProgress(pet) {
       if (pet.level >= 6) return 100;
-      const nextLv = pet.level + 1;
-      const needed = 100;
-      const current = pet.exp - (pet.level * 100);
-      return Math.min(100, Math.max(0, (current / needed) * 100));
+      return Math.min(100, Math.max(0, ((pet.exp - pet.level*100) / 100) * 100));
     },
     addStudent() {
       const name = prompt('学生姓名：');
       if (!name) return;
-      this.students.push({ id: 's'+(this.studentCounter++), name, points:0, pets:[] });
+      this.students.push({ id:'s'+(this.studentCounter++), name, points:0, pets:[] });
     },
     openEggSelect(student) { this.selectingStudent = student; },
     
-    // 选蛋 → 孵化弹窗
+    // 点击蛋 → 直接获得
     hatchEgg(name) {
-      const data = this.petSpecies[name];
-      if (!data) return;
-      this.hatching = { name, speciesData: data };
-    },
-    
-    // 确认孵化 → 加到选中的学生
-    confirmHatch() {
-      if (!this.hatching || !this.selectingStudent) return;
+      if (!this.selectingStudent || !this.petSpecies[name]) return;
       this.selectingStudent.pets.push({
-        species: this.hatching.name,
-        level: 1, exp: 0, mood: 80, energy: 80, hunger: 80, cleanliness: 80
+        species: name, level:1, exp:0, mood:80, energy:80, hunger:80, cleanliness:80
       });
-      this.hatching = null;
       this.selectingStudent = null;
     },
     
@@ -305,7 +271,7 @@ const app = createApp({
       if (student.pets.length > 0) {
         const p = student.pets[0];
         p.exp += amount;
-        p.mood = Math.min(100, p.mood + 5);
+        p.mood = Math.min(100, p.mood+5);
         if (type==='homework') p.hunger = Math.min(100, p.hunger+15);
         if (type==='handUp') p.energy = Math.min(100, p.energy+10);
         if (type==='duty') p.cleanliness = Math.min(100, p.cleanliness+15);
@@ -313,13 +279,13 @@ const app = createApp({
       }
     },
     deductPoints(student, amount) {
-      student.points = Math.max(0, student.points - amount);
+      student.points = Math.max(0, student.points-amount);
       if (student.pets.length > 0) student.pets[0].mood = Math.max(0, student.pets[0].mood-10);
     },
     checkLevelUp(pet) {
       const sd = this.getSpeciesData(pet);
       const next = sd.stages.find(s => s.level > pet.level);
-      if (next && pet.exp >= next.level * 100) {
+      if (next && pet.exp >= next.level*100) {
         pet.level = next.level;
         pet.mood = 100;
         alert('🎉 ' + pet.species + ' 进化到 Lv.' + pet.level + '：' + next.name + '！');
