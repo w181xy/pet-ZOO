@@ -18,6 +18,7 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .btn-zoo { background:#6BC77B; color:#fff; }
 .btn-shop { background:#FFB347; color:#fff; }
 .btn-add { background:#FF7B7B; color:#fff; }
+.btn-custom { background:#c084fc; color:#fff; }
 
 .student-list { padding:12px; max-width:850px; margin:0 auto; }
 .student-card { background:#fff; border-radius:16px; padding:14px; margin-bottom:12px; 
@@ -42,10 +43,12 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .evo-bar { width:100%; height:6px; background:#eee; border-radius:3px; margin-top:4px; overflow:hidden; }
 .evo-fill { height:100%; border-radius:3px; transition:0.5s; }
 
-.action-btns { display:flex; gap:4px; flex-wrap:wrap; margin-top:8px; }
+.action-btns { display:flex; gap:4px; flex-wrap:wrap; margin-top:8px; align-items:center; }
 .btn-sm { padding:4px 10px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; font-size:0.75rem; }
 .btn-plus { background:#b8e6b8; color:#2d5a2d; }
 .btn-minus { background:#ffcccc; color:#8b2020; }
+.btn-custom-sm { background:#e8d5ff; color:#5b21b6; font-size:0.7rem; }
+.custom-input { width:60px; padding:3px 6px; border-radius:8px; border:1px solid #ddd; font-size:0.7rem; margin:0 2px; }
 
 .overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:300; 
   display:flex; align-items:center; justify-content:center; }
@@ -76,7 +79,6 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
 .evo-stage.current { opacity:1; transform:scale(1.15); }
 .evo-stage img { width:30px; height:30px; object-fit:contain; border-radius:50%; border:2px solid #ddd; }
 .evo-stage.current img { border-color:#ffb347; box-shadow:0 0 8px rgba(255,179,71,0.5); }
-.evo-stage .stage-arrow { font-size:0.6rem; color:#ccc; }
 
 @media (max-width:500px) {
   .pet-mini { min-width:75px; }
@@ -93,13 +95,31 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
     <button class="btn btn-zoo" @click="openZoo">🦁 班级动物园</button>
     <button class="btn btn-shop" @click="openShop">🎁 兑换商城</button>
     <button class="btn btn-add" @click="addStudent">➕ 添加学生</button>
+    <button class="btn btn-custom" @click="showCustomActions=!showCustomActions">⚙️ 自定义行为</button>
+  </div>
+
+  <!-- 自定义行为管理面板 -->
+  <div v-if="showCustomActions" style="max-width:850px;margin:10px auto;background:#fff;border-radius:16px;padding:14px;">
+    <h4 style="color:#5b21b6;">⚙️ 自定义加减分行为</h4>
+    <div v-for="(act, idx) in customActions" :key="idx" style="display:flex;align-items:center;gap:6px;margin:6px 0;flex-wrap:wrap;">
+      <span style="font-size:0.8rem;">{{ act.icon }}</span>
+      <input v-model="act.name" placeholder="行为名" style="width:80px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;font-size:0.7rem;">
+      <input v-model.number="act.points" type="number" placeholder="分值" style="width:50px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;font-size:0.7rem;">
+      <select v-model="act.type" style="padding:3px 6px;border-radius:8px;border:1px solid #ddd;font-size:0.7rem;">
+        <option value="plus">加分</option>
+        <option value="minus">扣分</option>
+      </select>
+      <button class="btn-sm btn-minus" @click="customActions.splice(idx,1)" style="font-size:0.6rem;">删除</button>
+    </div>
+    <button class="btn-sm btn-plus" @click="customActions.push({name:'',icon:'⭐',points:1,type:'plus'})">➕ 添加行为</button>
+    <button class="btn-sm" style="background:#c084fc;color:#fff;margin-left:6px;" @click="saveCustomActions">保存</button>
   </div>
 
   <div class="student-list" v-if="currentView==='main'">
     <div v-for="student in students" :key="student.id" class="student-card">
       <div class="student-header">
         <span class="student-name">{{ student.name }}</span>
-        <span class="student-points">⭐ {{ student.points }}分 | 🏷️ {{ Math.floor(student.points/20) }}贴纸</span>
+        <span class="student-points">⭐ {{ student.points }}分 | 🪙 {{ Math.floor(student.points/20) }}宠物币</span>
       </div>
       <div class="pet-row">
         <div v-for="(pet, pi) in student.pets" :key="pi" class="pet-mini" @click="openDetail(student, pet)">
@@ -117,16 +137,24 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
         <button class="btn-sm btn-plus" @click="addPoints(student, 'duty', 4)">🧹值日+4</button>
         <button class="btn-sm btn-minus" @click="deductPoints(student, 3)">⏰迟到-3</button>
         <button class="btn-sm btn-minus" @click="deductPoints(student, 2)">💬讲话-2</button>
+        <!-- 自定义行为按钮 -->
+        <template v-for="(act, idx) in customActions" :key="'c'+idx">
+          <button v-if="act.name" class="btn-sm" :class="act.type==='plus'?'btn-plus':'btn-minus'"
+            @click="act.type==='plus'?addPoints(student, 'custom', act.points, act.name):deductPoints(student, Math.abs(act.points))">
+            {{ act.icon }}{{ act.name }}{{ act.type==='plus'?'+':'' }}{{ Math.abs(act.points) }}
+          </button>
+        </template>
       </div>
     </div>
   </div>
 
-  <!-- 选蛋面板 -->
+  <!-- 选蛋面板（随机获取） -->
   <div class="overlay" v-if="selectingStudent" @click.self="selectingStudent=null">
     <div class="select-card">
-      <h3>🥚 给 {{ selectingStudent.name }} 选一颗宠物蛋</h3>
+      <h3>🥚 给 {{ selectingStudent.name }} 随机一颗宠物蛋</h3>
+      <p style="color:#999;">点击下方蛋，随机获得一只宠物！</p>
       <div class="egg-grid">
-        <div v-for="(petData, name) in petSpecies" :key="name" class="egg-option" @click="hatchEgg(name)">
+        <div v-for="(petData, name) in petSpecies" :key="name" class="egg-option" @click="hatchRandomEgg()">
           <img :src="petData.stages[0].image" :alt="name">
           <div class="egg-label">???</div>
         </div>
@@ -141,20 +169,21 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
     <div class="zoo-container" id="zooCanvas"></div>
   </div>
 
-  <!-- 商城 -->
+  <!-- 商城（宠物币） -->
   <div v-if="currentView==='shop'" class="shop-panel">
     <button class="btn" style="background:#ddd;margin-bottom:10px;" @click="currentView='main'">⬅ 返回主页</button>
     <h3>🎁 兑换商城</h3>
+    <p style="color:#666;">🪙 使用宠物币兑换奖励</p>
     <select v-model="selectedStudentId" style="width:100%;padding:8px;border-radius:10px;margin:8px 0;">
-      <option v-for="s in students" :value="s.id">{{ s.name }} ({{ Math.floor(s.points/20) }}贴纸)</option>
+      <option v-for="s in students" :value="s.id">{{ s.name }} (🪙 {{ Math.floor(s.points/20) }})</option>
     </select>
     <div v-for="item in shopItems" :key="item.id" class="shop-item">
-      <span>{{ item.icon }} {{ item.name }} <b>({{ item.cost }}贴纸)</b></span>
+      <span>{{ item.icon }} {{ item.name }} <b>(🪙 {{ item.cost }})</b></span>
       <button class="btn-sm btn-plus" @click="exchangeItem(item)">兑换</button>
     </div>
     <div style="margin-top:12px;padding:10px;background:#fff8f0;border-radius:10px;">
       <input v-model="newItemName" placeholder="商品名" style="width:100px;padding:6px;border-radius:8px;border:1px solid #ddd;">
-      <input v-model="newItemCost" type="number" placeholder="贴纸" style="width:60px;padding:6px;border-radius:8px;border:1px solid #ddd;margin-left:4px;">
+      <input v-model="newItemCost" type="number" placeholder="宠物币" style="width:70px;padding:6px;border-radius:8px;border:1px solid #ddd;margin-left:4px;">
       <button class="btn-sm btn-plus" @click="addShopItem">添加</button>
     </div>
   </div>
@@ -170,7 +199,7 @@ body { font-family: 'Segoe UI', system-ui; background: #FFF8F0; min-height:100vh
           <div class="evo-stage" :class="{unlocked: detailPet.pet.level > stage.level, current: detailPet.pet.level === stage.level}">
             <img :src="stage.image"><div style="font-size:0.5rem;">{{ stage.name }}</div>
           </div>
-          <span v-if="idx < 5" class="stage-arrow">→</span>
+          <span v-if="idx < 5">→</span>
         </template>
       </div>
       <p>😊心情 <progress :value="detailPet.pet.mood" max="100"></progress></p>
@@ -204,7 +233,7 @@ const PET_SPECIES = {
 const { createApp } = Vue;
 const app = createApp({
   data() {
-    const saved = JSON.parse(localStorage.getItem('pet_zoo_v6') || '{}');
+    const saved = JSON.parse(localStorage.getItem('pet_zoo_v7') || '{}');
     return {
       currentView: 'main',
       students: saved.students || [
@@ -216,7 +245,13 @@ const app = createApp({
         { id:1, icon:'💺', name:'选座位券', cost:2 },
         { id:2, icon:'📝', name:'免作业券', cost:5 }
       ],
+      customActions: saved.customActions || [
+        { name:'积极发言', icon:'💬', points:2, type:'plus' },
+        { name:'帮助同学', icon:'🤝', points:3, type:'plus' },
+        { name:'未交作业', icon:'📝', points:-2, type:'minus' }
+      ],
       petSpecies: PET_SPECIES,
+      showCustomActions: false,
       detailPet: null,
       selectingStudent: null,
       selectedStudentId: null,
@@ -226,10 +261,16 @@ const app = createApp({
   },
   watch: {
     students: { deep:true, handler:'saveAll' },
-    shopItems: { deep:true, handler:'saveAll' }
+    shopItems: { deep:true, handler:'saveAll' },
+    customActions: { deep:true, handler:'saveAll' }
   },
   methods: {
-    saveAll() { localStorage.setItem('pet_zoo_v6', JSON.stringify({ students: this.students, shopItems: this.shopItems })); },
+    saveAll() { 
+      localStorage.setItem('pet_zoo_v7', JSON.stringify({ 
+        students: this.students, shopItems: this.shopItems, customActions: this.customActions 
+      })); 
+    },
+    saveCustomActions() { this.saveAll(); alert('自定义行为已保存！'); },
     getSpeciesData(pet) { return this.petSpecies[pet.species] || Object.values(this.petSpecies)[0]; },
     getCurrentImage(pet) {
       const sd = this.getSpeciesData(pet);
@@ -254,11 +295,13 @@ const app = createApp({
     },
     openEggSelect(student) { this.selectingStudent = student; },
     
-    // 点击蛋 → 直接获得
-    hatchEgg(name) {
-      if (!this.selectingStudent || !this.petSpecies[name]) return;
+    // 随机获取蛋
+    hatchRandomEgg() {
+      if (!this.selectingStudent) return;
+      const names = Object.keys(this.petSpecies);
+      const randomName = names[Math.floor(Math.random() * names.length)];
       this.selectingStudent.pets.push({
-        species: name, level:1, exp:0, mood:80, energy:80, hunger:80, cleanliness:80
+        species: randomName, level:1, exp:0, mood:80, energy:80, hunger:80, cleanliness:80
       });
       this.selectingStudent = null;
     },
@@ -266,7 +309,7 @@ const app = createApp({
     deletePet(student, index) {
       if (confirm('放生 ' + student.pets[index].species + ' 吗？')) student.pets.splice(index, 1);
     },
-    addPoints(student, type, amount) {
+    addPoints(student, type, amount, label) {
       student.points += amount;
       if (student.pets.length > 0) {
         const p = student.pets[0];
@@ -319,9 +362,10 @@ const app = createApp({
     exchangeItem(item) {
       const s=this.students.find(s=>s.id===this.selectedStudentId);
       if(!s) return alert('请选择学生');
-      if(Math.floor(s.points/20) < item.cost) return alert('贴纸不够！');
+      const coins = Math.floor(s.points/20);
+      if(coins < item.cost) return alert('宠物币不够！');
       s.points -= item.cost*20;
-      alert('✅ '+s.name+' 兑换了 '+item.name);
+      alert('✅ '+s.name+' 兑换了 '+item.name+'！');
     },
     addShopItem() {
       if(!this.newItemName) return;
